@@ -191,8 +191,16 @@ details.targeting[open] > summary .caret{transform:rotate(180deg)}
    SogoApp Boost Portal
    Static SPA · GitHub Pages (sogoapps.com/portal) · calls api.sogoapps.com (CORS *)
    ========================================================================== */
-const API   = "https://dev.sogoapps.com"; // TESTING on dev — flip to https://api.sogoapps.com at production launch (after promoting the economy + web-auth to prod)
-const RECHARGE_URL = API + "/recharge";          // existing web top-up page
+// API base auto-detected from the host so each environment talks to its OWN backend:
+//   dev.sogoapps.com     -> dev backend (same origin)
+//   staging.sogoapps.com -> staging backend (same origin)
+//   sogoapps.com (+ any other) -> production api.sogoapps.com
+const API = (function () {
+  var h = location.hostname;
+  if (h === "dev.sogoapps.com") return "https://dev.sogoapps.com";
+  if (h === "staging.sogoapps.com") return "https://staging.sogoapps.com";
+  return "https://api.sogoapps.com";
+})();
 const TURNSTILE_SITE_KEY = "0x4AAAAAAD3-6y3M__hLxeZe";  // public site key (hostname sogoapps.com)
 const TOKEN_KEY = "sogo_boost_token";
 const PHONE_KEY = "sogo_boost_phone";
@@ -438,7 +446,7 @@ async function renderDashboard() {
     el("div", {},
       el("div", { class: "lbl" }, "Wallet balance"),
       el("div", { class: "amt" }, balCents === null ? "—" : money(balCents))),
-    el("a", { class: "btn btn-ghost btn-sm", href: RECHARGE_URL, target: "_blank", rel: "noopener" }, "Add funds"),
+    el("button", { class: "btn btn-ghost btn-sm", onclick: addFunds }, "Add funds"),
   );
   app.append(walletCard);
 
@@ -651,9 +659,28 @@ function insufficientAlert(balCents, needCents) {
       el("div", { style: "font-weight:700;color:var(--ink);margin-bottom:4px" }, "Not enough balance"),
       el("div", {}, (balCents != null ? "Your wallet has " + money(balCents) + ". " : "") +
         "This campaign needs " + money(needCents) + "."),
-      el("a", { class: "btn btn-primary btn-sm", href: RECHARGE_URL, target: "_blank", rel: "noopener",
+      el("button", { class: "btn btn-primary btn-sm", onclick: addFunds,
         style: "margin-top:10px;display:inline-flex" }, "Add funds →")));
   return box;
+}
+
+// Add funds: mint a WALLET-mode recharge token on the backend (JWT-authed), then
+// open the existing web top-up page WITH that session token (fixes "Missing session"
+// — that page requires a signed ?t=<token>&mode=wallet handoff).
+async function addFunds(ev) {
+  var btn = ev && ev.currentTarget;
+  var label = btn ? btn.textContent : null;
+  if (btn) { btn.disabled = true; btn.textContent = "Opening…"; }
+  try {
+    var r = await api("/api/v1/live/recharge/token", { method: "POST", body: { mode: "wallet" } });
+    var d = (r && r.data) || {};
+    var url = d.webUrl || (API + "/recharge/?t=" + encodeURIComponent(d.token || "") + "&mode=wallet");
+    window.open(url, "_blank", "noopener");
+  } catch (e) {
+    window.alert((e && e.message) ? e.message : "Couldn’t open Add funds. Please try again.");
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = label; }
+  }
 }
 
 /* ============================================================================
