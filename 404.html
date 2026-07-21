@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SogoApp</title>
+<meta name="description" content="Open in SogoApp." />
+<meta property="og:site_name" content="SogoApp" />
+<meta property="og:title" content="You're invited on SogoApp" />
+<meta property="og:description" content="Open in SogoApp to join." />
+<meta property="og:type" content="website" />
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  :root { --bg:#0a0a0a; --surface:#161616; --surface2:#1f1f1f; --text:#fff; --dim:#9a9a9a; --brand:#3e72fe; --border:rgba(255,255,255,.08); }
+  html,body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; min-height:100%; }
+  a { color:inherit; text-decoration:none; }
+  .page { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 16px;
+    background:radial-gradient(60% 40% at 50% 0%, rgba(62,114,254,.14), transparent 70%), var(--bg); }
+  .card { width:100%; max-width:420px; background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:32px 24px; text-align:center; }
+  .logo-row { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:24px; }
+  .logo-mark { width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg,#3e72fe,#2a56d6); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; }
+  .logo-name { font-size:20px; font-weight:700; }
+  .kicker { display:inline-block; font-size:12px; font-weight:600; letter-spacing:1.2px; text-transform:uppercase; color:var(--brand); background:rgba(62,114,254,.12); border-radius:999px; padding:6px 14px; margin-bottom:16px; }
+  .title { font-size:24px; font-weight:700; line-height:1.25; margin-bottom:8px; }
+  .subtitle { font-size:15px; color:var(--dim); line-height:1.5; margin-bottom:24px; }
+  .meta { display:flex; flex-direction:column; gap:8px; background:var(--surface2); border:1px solid var(--border); border-radius:16px; padding:14px 16px; margin-bottom:24px; text-align:left; }
+  .meta-row { display:flex; justify-content:space-between; font-size:14px; }
+  .meta-row .k { color:var(--dim); }
+  .meta-row .v { font-weight:600; }
+  .btn-primary { display:block; width:100%; background:var(--brand); color:#fff; font-size:16px; font-weight:700; border:none; border-radius:14px; padding:16px; cursor:pointer; margin-bottom:14px; }
+  .btn-primary:active { opacity:.85; }
+  .stores { display:none; gap:10px; justify-content:center; flex-wrap:wrap; }
+  .btn-store { flex:1 1 45%; display:flex; align-items:center; justify-content:center; gap:8px; background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:12px 14px; font-size:14px; font-weight:600; }
+  .hint { margin-top:18px; font-size:12.5px; color:var(--dim); }
+  .hint a { color:var(--brand); }
+  .footer { margin-top:28px; font-size:12.5px; color:var(--dim); text-align:center; }
+  .footer a { color:var(--brand); }
+</style>
+</head>
+<body>
+<main class="page">
+  <div class="card">
+    <div class="logo-row"><div class="logo-mark">S</div><div class="logo-name">SogoApp</div></div>
+    <div class="kicker" id="kicker" style="display:none"></div>
+    <h1 class="title" id="title">Open in SogoApp</h1>
+    <p class="subtitle" id="subtitle">Loading…</p>
+    <div class="meta" id="meta" style="display:none"></div>
+    <button class="btn-primary" id="openBtn">Open in SogoApp</button>
+    <div class="stores" id="stores">
+      <a class="btn-store" href="https://play.google.com/store/apps/details?id=com.org.sogo">▶ Google Play</a>
+      <a class="btn-store" href="https://apps.apple.com/app/sogoapp"> App Store</a>
+    </div>
+    <p class="hint">Don't have the app yet? <a href="https://play.google.com/store/apps/details?id=com.org.sogo">Get SogoApp</a></p>
+  </div>
+  <footer class="footer">
+    <a href="https://app.sogoapps.com">About</a> ·
+    <a href="https://app.sogoapps.com/privacy-policy/">Privacy</a> ·
+    <a href="https://app.sogoapps.com/terms-of-service/">Terms</a>
+  </footer>
+</main>
+
+<script>
+(function () {
+  var PLAY = "https://play.google.com/store/apps/details?id=com.org.sogo";
+  var API = "https://api.sogoapps.com/api/v1";
+
+  // Robustly find the deep-link kind + value from the path, regardless of any
+  // base path (works on both the sogo4app.github.io/... preview and the custom domain).
+  var parts = location.pathname.split("/").filter(Boolean);
+  var KINDS = { training: "Live Training", live: "Live Stream", invite: "Invitation" };
+  var kind = null, val = null;
+  for (var i = 0; i < parts.length; i++) {
+    if (KINDS[parts[i]] && parts[i + 1]) { kind = parts[i]; val = decodeURIComponent(parts[i + 1]); break; }
+  }
+
+  var $ = function (id) { return document.getElementById(id); };
+  var deepLink = "sogo://";
+
+  function setGeneric() {
+    if (!kind) {
+      $("title").textContent = "Open SogoApp";
+      $("subtitle").textContent = "This link opens in the SogoApp app.";
+      return;
+    }
+    $("kicker").textContent = KINDS[kind]; $("kicker").style.display = "inline-block";
+    deepLink = "sogo://" + kind + "/" + val;
+    if (kind === "training") {
+      $("title").textContent = "You're invited to a live training";
+      $("subtitle").textContent = "Open SogoApp to see the details and join.";
+    } else if (kind === "live") {
+      $("title").textContent = "Someone is live on SogoApp";
+      $("subtitle").textContent = "Open the app to watch the stream.";
+    } else {
+      $("title").textContent = "You've been invited to SogoApp";
+      $("subtitle").textContent = "Open the app to accept the invitation.";
+    }
+  }
+
+  function priceLabel(t) {
+    if (typeof t.priceCents === "number") return t.priceCents === 0 ? "Free" : "$" + (t.priceCents / 100).toFixed(2);
+    if (typeof t.priceCoins === "number") return t.priceCoins === 0 ? "Free" : t.priceCoins.toLocaleString() + " coins";
+    return null;
+  }
+
+  function renderTraining(t) {
+    if (t.title) { $("title").textContent = t.title; $("subtitle").textContent = "Join this training in the SogoApp app."; }
+    var rows = [];
+    if (t.hostName) rows.push(["Host", t.hostName]);
+    if (t.sessionCount) rows.push(["Sessions", String(t.sessionCount)]);
+    var p = priceLabel(t); if (p) rows.push(["Price", p]);
+    if (rows.length) {
+      var m = $("meta"); m.innerHTML = "";
+      rows.forEach(function (r) {
+        var d = document.createElement("div"); d.className = "meta-row";
+        d.innerHTML = '<span class="k"></span><span class="v"></span>';
+        d.children[0].textContent = r[0]; d.children[1].textContent = r[1];
+        m.appendChild(d);
+      });
+      m.style.display = "flex";
+    }
+  }
+
+  setGeneric();
+
+  // Best-effort enrich for trainings — degrades silently on 404 / CORS / network.
+  if (kind === "training") {
+    try {
+      var ctrl = new AbortController();
+      setTimeout(function () { ctrl.abort(); }, 3000);
+      fetch(API + "/public/training/" + encodeURIComponent(val), { signal: ctrl.signal })
+        .then(function (r) { return r.ok ? r.json() : null; })
+        .then(function (b) { if (b && b.data) renderTraining(b.data); })
+        .catch(function () {});
+    } catch (e) {}
+  }
+
+  // Open-in-app: try the scheme; if we're still here shortly after, reveal store buttons.
+  var openTimer = null;
+  function openApp() {
+    $("stores").style.display = "none";
+    var t0 = Date.now();
+    window.location.href = deepLink;
+    openTimer = setTimeout(function () {
+      if (!document.hidden && Date.now() - t0 < 3000) $("stores").style.display = "flex";
+    }, 1600);
+  }
+  document.addEventListener("visibilitychange", function () { if (document.hidden && openTimer) clearTimeout(openTimer); });
+  $("openBtn").addEventListener("click", openApp);
+})();
+</script>
+</body>
+</html>
