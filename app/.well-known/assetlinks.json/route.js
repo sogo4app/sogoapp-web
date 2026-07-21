@@ -1,0 +1,29 @@
+// Android App Links — served at /.well-known/assetlinks.json. The SHA-256
+// fingerprints below are the REAL com.org.sogo signing certs, copied from the
+// live backend's own assetlinks (https://api.sogoapps.com/.well-known/assetlinks.json,
+// verified 2026-07-21). If the app is ever re-keyed, update them from
+// Play Console → Setup → App signing.
+export const dynamic = "force-static";
+
+const ASSETLINKS = [
+  {
+    relation: ["delegate_permission/common.handle_all_urls"],
+    target: {
+      namespace: "android_app",
+      package_name: "com.org.sogo",
+      sha256_cert_fingerprints: [
+        "AB:0F:DD:DE:83:09:D4:C7:E0:42:F2:94:6C:D5:B9:48:9A:E9:B0:4D:EB:D6:8D:B1:51:CF:08:D4:88:3A:40:CE",
+        "FF:F8:9B:FD:F9:FE:16:02:C6:98:91:59:12:FD:10:AE:E1:60:EF:9D:09:07:75:C5:11:F9:64:8C:0C:07:D2:79",
+      ],
+    },
+  },
+];
+
+export async function GET() {
+  return new Response(JSON.stringify(ASSETLINKS), {
+    headers: {
+      "Content-Type": "application/json",
+      "Cache-Control": "public, max-age=3600",
+    },
+  });
+}
