@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<meta name="robots" content="noindex" />
+<title>SogoApp — Boost Portal</title>
+<link rel="preconnect" href="https://api.sogoapps.com" crossorigin />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233E72FE'/%3E%3Ctext x='16' y='22' font-size='18' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
+<style>
+/* ============================================================
+   SogoApp Boost Portal — dark theme
+   brand blue #3E72FE · green #128C4A · Spectrum accents
+   ============================================================ */
+:root{
+  --blue:#3E72FE; --blue-dark:#2A56D6; --blue-soft:#5E8BFF;
+  --green:#128C4A; --green-bright:#1AFE93;
+  --yellow:#FECB29; --red:#FC2424;
+  --ink:#f3f6fd; --body:#c2c9d8; --muted:#8b93a7;
+  --line:#232838; --line-2:#2c3346;
+  --surface:#12151d; --surface-2:#171b26; --surface-3:#1d2230;
+  --bg:#0a0c11;
+  --grad:linear-gradient(120deg,#3E72FE 0%,#5E8BFF 45%,#12B67A 100%);
+  --grad-soft:linear-gradient(120deg,rgba(62,114,254,.16),rgba(26,254,147,.10));
+  --radius:18px; --radius-sm:12px;
+  --shadow:0 24px 60px -22px rgba(0,0,0,.6);
+  --shadow-sm:0 10px 28px -14px rgba(0,0,0,.55);
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;font-family:var(--font);color:var(--body);background:
+  radial-gradient(1100px 620px at 50% -10%,rgba(62,114,254,.12),transparent 60%),
+  radial-gradient(900px 520px at 90% 5%,rgba(18,140,74,.08),transparent 55%),
+  var(--bg);
+  background-attachment:fixed;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh}
+img{max-width:100%;display:block}
+h1,h2,h3{color:var(--ink);line-height:1.18;letter-spacing:-.02em;margin:0 0 .4em}
+h1{font-size:clamp(1.7rem,5vw,2.3rem);font-weight:800}
+h2{font-size:clamp(1.25rem,3.4vw,1.6rem);font-weight:800}
+h3{font-size:1.02rem;font-weight:700;color:var(--ink)}
+p{margin:0 0 1rem}
+a{color:var(--blue-soft);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:3px solid rgba(62,114,254,.6);outline-offset:2px;border-radius:8px}
+
+.wrap{width:100%;max-width:520px;margin-inline:auto;padding:20px 18px calc(40px + env(safe-area-inset-bottom))}
+.dash-wrap{max-width:680px}
+
+/* header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 4px;margin-bottom:8px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--ink);font-size:1.05rem;letter-spacing:-.01em}
+.logo{width:34px;height:34px;border-radius:9px;background:var(--grad);display:grid;place-items:center;
+  color:#fff;font-weight:800;font-size:1rem;box-shadow:0 8px 20px -8px rgba(62,114,254,.7)}
+.grad-text{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+
+/* cards */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:26px 22px}
+.card + .card{margin-top:16px}
+.card-pad-lg{padding:30px 26px}
+.lede{color:var(--muted);margin-top:-.2em}
+
+/* form */
+label{display:block;font-weight:600;color:var(--ink);font-size:.92rem;margin:0 0 6px}
+.hint{color:var(--muted);font-size:.82rem;margin:5px 0 0}
+.field{margin-bottom:16px}
+input,select{width:100%;font:inherit;font-size:1rem;color:var(--ink);background:var(--surface-2);
+  border:1px solid var(--line-2);border-radius:var(--radius-sm);padding:13px 14px;transition:border-color .15s,background .15s}
+input::placeholder{color:var(--muted)}
+input:focus,select:focus{border-color:var(--blue);background:var(--surface-3);outline:none}
+select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%238b93a7' viewBox='0 0 16 16'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+.phone-row{display:flex;gap:10px}
+.phone-row select{flex:0 0 96px}
+.phone-row input{flex:1}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:420px){.grid-2{grid-template-columns:1fr}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;width:100%;
+  font-weight:700;font-size:1rem;padding:14px 18px;border-radius:999px;border:1px solid transparent;
+  cursor:pointer;transition:transform .12s,box-shadow .15s,background .15s,opacity .15s;font-family:inherit}
+.btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-primary{background:var(--blue);color:#fff;box-shadow:0 14px 28px -14px rgba(62,114,254,.8)}
+.btn-primary:hover:not(:disabled){background:var(--blue-dark)}
+.btn-green{background:var(--green);color:#fff;box-shadow:0 14px 28px -14px rgba(18,140,74,.7)}
+.btn-green:hover:not(:disabled){background:#0f7a40}
+.btn-ghost{background:transparent;color:var(--ink);border-color:var(--line-2)}
+.btn-ghost:hover:not(:disabled){border-color:var(--blue);color:var(--blue-soft)}
+.btn-sm{width:auto;padding:9px 16px;font-size:.9rem}
+.btn-row{display:flex;gap:10px}
+.btn-row .btn{width:auto;flex:1}
+.linkbtn{background:none;border:none;color:var(--blue-soft);font:inherit;font-weight:600;cursor:pointer;padding:6px}
+.linkbtn:hover{text-decoration:underline}
+
+/* spinner */
+.spin{width:17px;height:17px;border:2.5px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;
+  animation:sp .7s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+.center-load{display:flex;align-items:center;justify-content:center;gap:10px;color:var(--muted);padding:30px 0}
+.center-load .spin{border-color:rgba(139,147,167,.3);border-top-color:var(--blue-soft)}
+
+/* alerts */
+.alert{border-radius:var(--radius-sm);padding:12px 14px;font-size:.9rem;margin:0 0 16px;border:1px solid transparent;display:flex;gap:9px;align-items:flex-start}
+.alert.err{background:rgba(252,36,36,.10);border-color:rgba(252,36,36,.4);color:#ffb4b4}
+.alert.ok{background:rgba(18,140,74,.12);border-color:rgba(26,254,147,.35);color:var(--green-bright)}
+.alert.warn{background:rgba(254,203,41,.10);border-color:rgba(254,203,41,.4);color:#ffe08a}
+.alert.info{background:rgba(62,114,254,.10);border-color:rgba(62,114,254,.4);color:#a9c2ff}
+.alert-ico{flex:0 0 auto;font-size:1rem;line-height:1.4}
+
+/* wallet */
+.wallet{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  background:var(--grad-soft);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;margin-bottom:16px}
+.wallet .lbl{color:var(--muted);font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em}
+.wallet .amt{color:var(--ink);font-size:1.9rem;font-weight:800;letter-spacing:-.02em;line-height:1.1;margin-top:2px}
+
+/* section head */
+.sec-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:22px 2px 12px}
+.sec-head h2{margin:0;font-size:1.15rem}
+
+/* campaign list */
+.camp{display:flex;gap:14px;align-items:center;background:var(--surface-2);border:1px solid var(--line);
+  border-radius:var(--radius-sm);padding:14px;margin-bottom:12px}
+.camp-thumb{flex:0 0 52px;width:52px;height:52px;border-radius:10px;background:var(--surface-3);
+  display:grid;place-items:center;overflow:hidden;font-size:1.3rem}
+.camp-thumb img{width:100%;height:100%;object-fit:cover}
+.camp-body{flex:1;min-width:0}
+.camp-title{color:var(--ink);font-weight:700;font-size:.96rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.camp-meta{color:var(--muted);font-size:.82rem;margin-top:3px;display:flex;flex-wrap:wrap;gap:4px 12px}
+.camp-meta b{color:var(--body);font-weight:600}
+.pill{flex:0 0 auto;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:999px;text-transform:capitalize;letter-spacing:.02em}
+.pill.active{background:rgba(26,254,147,.14);color:var(--green-bright)}
+.pill.ended,.pill.completed{background:rgba(139,147,167,.16);color:var(--muted)}
+.pill.pending,.pill.paused{background:rgba(254,203,41,.14);color:#ffe08a}
+.pill.rejected,.pill.cancelled{background:rgba(252,36,36,.14);color:#ffb4b4}
+.empty{text-align:center;color:var(--muted);padding:26px 10px;font-size:.92rem}
+
+/* status picker */
+.status-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:10px}
+.status-opt{position:relative;border:2px solid var(--line-2);border-radius:var(--radius-sm);overflow:hidden;
+  cursor:pointer;background:var(--surface-2);aspect-ratio:9/12;display:grid;place-items:center;transition:border-color .15s,transform .12s}
+.status-opt:hover{transform:translateY(-2px)}
+.status-opt.sel{border-color:var(--blue);box-shadow:0 0 0 3px rgba(62,114,254,.25)}
+.status-opt img{width:100%;height:100%;object-fit:cover}
+.status-opt .txt{padding:8px;font-size:.72rem;color:var(--body);text-align:center;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.status-opt .type-badge{position:absolute;top:6px;left:6px;font-size:.68rem;background:rgba(0,0,0,.55);
+  color:#fff;padding:2px 7px;border-radius:6px;backdrop-filter:blur(4px)}
+.status-opt .check{position:absolute;top:6px;right:6px;width:20px;height:20px;border-radius:50%;
+  background:var(--blue);color:#fff;display:none;place-items:center;font-size:.75rem}
+.status-opt.sel .check{display:grid}
+
+/* budget presets */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.chip{border:1px solid var(--line-2);background:var(--surface-2);color:var(--body);border-radius:999px;
+  padding:8px 15px;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .12s}
+.chip:hover{border-color:var(--blue)}
+.chip.sel{background:var(--blue);color:#fff;border-color:var(--blue)}
+.dollar-input{position:relative}
+.dollar-input span{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1rem;pointer-events:none}
+.dollar-input input{padding-left:28px}
+
+details.targeting{border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface-2);margin-bottom:16px;overflow:hidden}
+details.targeting > summary{cursor:pointer;padding:13px 15px;font-weight:600;color:var(--ink);list-style:none;display:flex;align-items:center;justify-content:space-between}
+details.targeting > summary::-webkit-details-marker{display:none}
+details.targeting > summary .caret{color:var(--muted);transition:transform .15s}
+details.targeting[open] > summary .caret{transform:rotate(180deg)}
+.targeting-body{padding:0 15px 15px}
+
+.turnstile-holder{margin:4px 0 16px;min-height:66px;display:flex;justify-content:center}
+.foot{text-align:center;color:var(--muted);font-size:.8rem;margin-top:22px;padding:0 10px}
+.foot a{color:var(--muted)}
+.hidden{display:none !important}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+</style>
+</head>
+<body>
+<div class="wrap" id="app">
+  <div class="center-load" id="boot"><span class="spin"></span> Loading…</div>
+</div>
+
+<!-- Cloudflare Turnstile (explicit render) -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+<script>
+"use strict";
+/* ============================================================================
+   SogoApp Boost Portal
+   Static SPA · GitHub Pages (sogoapps.com/portal) · calls api.sogoapps.com (CORS *)
+   ========================================================================== */
+const API   = "https://api.sogoapps.com";
+const RECHARGE_URL = API + "/recharge";          // existing web top-up page
+const TURNSTILE_SITE_KEY = "0x4AAAAAAD3-6y3M__hLxeZe";  // public site key (hostname sogoapps.com)
+const TOKEN_KEY = "sogo_boost_token";
+const PHONE_KEY = "sogo_boost_phone";
+const DEFAULT_MIN_CENTS = 500;                   // fallback min budget; server BELOW_MIN is authoritative
+
+/* ---- tiny helpers -------------------------------------------------------- */
+const $  = (sel, root = document) => root.querySelector(sel);
+const el = (tag, attrs = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (k === "class") n.className = v;
+    else if (k === "html") n.innerHTML = v;
+    else if (k.startsWith("on") && typeof v === "function") n.addEventListener(k.slice(2), v);
+    else if (v !== null && v !== undefined && v !== false) n.setAttribute(k, v);
+  }
+  for (const kid of kids) if (kid != null) n.append(kid.nodeType ? kid : document.createTextNode(String(kid)));
+  return n;
+};
+const money = (cents) => "$" + (Number(cents || 0) / 100).toFixed(2);
+const getToken = () => localStorage.getItem(TOKEN_KEY);
+const setToken = (t) => localStorage.setItem(TOKEN_KEY, t);
+const clearToken = () => { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(PHONE_KEY); };
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID()
+  : "id-" + Date.now() + "-" + Math.random().toString(16).slice(2));
+
+/* ---- API layer ----------------------------------------------------------- */
+async function api(path, { method = "GET", body, auth = true } = {}) {
+  const headers = { "Accept": "application/json" };
+  if (body !== undefined) headers["Content-Type"] = "application/json";
+  if (auth) {
+    const t = getToken();
+    if (t) headers["Authorization"] = "Bearer " + t;
+  }
+  let res;
+  try {
+    res = await fetch(API + path, { method, headers, body: body !== undefined ? JSON.stringify(body) : undefined });
+  } catch (e) {
+    throw { network: true, message: "Can’t reach SogoApp. Check your connection and try again." };
+  }
+  let data = null;
+  try { data = await res.json(); } catch (_) { /* empty / non-json */ }
+  if (res.status === 401 && auth) {            // token expired mid-session
+    clearToken();
+    if (path.indexOf("/auth/") === -1) { renderLogin("Your session expired. Please sign in again."); }
+  }
+  if (!res.ok) {
+    throw {
+      status: res.status,
+      code: data && (data.code || data.error),
+      message: (data && data.message) || ("Request failed (" + res.status + ")"),
+      data,
+    };
+  }
+  return data;
+}
+
+/* ============================================================================
+   1 · LOGIN
+   ========================================================================== */
+let turnstileWidgetId = null;
+let turnstileToken = null;
+
+function resetTurnstile() {
+  turnstileToken = null;
+  if (window.turnstile && turnstileWidgetId !== null) {
+    try { window.turnstile.reset(turnstileWidgetId); } catch (_) {}
+  }
+}
+
+function mountTurnstile(holder, onToken) {
+  const render = () => {
+    if (!window.turnstile) { setTimeout(render, 150); return; }
+    if (turnstileWidgetId !== null) { try { window.turnstile.remove(turnstileWidgetId); } catch (_) {} turnstileWidgetId = null; }
+    turnstileWidgetId = window.turnstile.render(holder, {
+      sitekey: TURNSTILE_SITE_KEY,
+      theme: "dark",
+      callback: (tok) => { turnstileToken = tok; onToken(tok); },
+      "expired-callback": () => { turnstileToken = null; onToken(null); },
+      "error-callback": () => { turnstileToken = null; onToken(null); },
+    });
+  };
+  render();
+}
+
+function renderLogin(notice) {
+  turnstileWidgetId = null; turnstileToken = null;
+  const app = $("#app");
+  app.className = "wrap";
+  app.replaceChildren();
+  app.append(headerBar(false));
+
+  const savedPhone = localStorage.getItem(PHONE_KEY) || "";
+  const alertHost = el("div");
+  const card = el("div", { class: "card card-pad-lg" });
+
+  // --- phone step ---
+  const phoneInput = el("input", {
+    type: "tel", inputmode: "tel", id: "phone", autocomplete: "tel",
+    placeholder: "e.g. +1 555 123 4567", value: savedPhone,
+    "aria-label": "Phone number in international format",
+  });
+  const turnstileHolder = el("div", { class: "turnstile-holder", id: "ts" });
+  const sendBtn = el("button", { class: "btn btn-primary", type: "submit", disabled: true },
+    el("span", { class: "label" }, "Send code"));
+
+  const onToken = (tok) => { sendBtn.disabled = !tok; };
+
+  const phoneForm = el("form", { novalidate: "" },
+    el("h1", {}, "Boost your ", el("span", { class: "grad-text" }, "status")),
+    el("p", { class: "lede" }, "Sign in to create and pay for campaigns. Verify your phone to continue."),
+    el("div", { class: "field" },
+      el("label", { for: "phone" }, "Phone number"),
+      phoneInput,
+      el("p", { class: "hint" }, "Use international format with your country code (e.g. +1…).")),
+    turnstileHolder,
+    sendBtn,
+  );
+  phoneForm.addEventListener("submit", (e) => { e.preventDefault(); doSendOtp(phoneInput.value.trim(), sendBtn, alertHost, card); });
+
+  card.append(phoneForm);
+  if (notice) alertHost.append(alert("info", notice));
+  app.append(alertHost, card, footer());
+  mountTurnstile(turnstileHolder, onToken);
+}
+
+async function doSendOtp(phone, btn, alertHost, card) {
+  alertHost.replaceChildren();
+  if (!/^\+?[0-9][0-9\s\-().]{5,}$/.test(phone)) {
+    alertHost.append(alert("err", "Enter a valid phone number in international format."));
+    return;
+  }
+  if (!turnstileToken) { alertHost.append(alert("err", "Please complete the captcha.")); return; }
+  const normalized = "+" + phone.replace(/[^\d]/g, "");
+  loadBtn(btn, true, "Sending…");
+  try {
+    await api("/api/v1/auth/web/send-otp", {
+      method: "POST", auth: false,
+      body: { phone_number: normalized, turnstileToken: turnstileToken },
+    });
+    localStorage.setItem(PHONE_KEY, normalized);
+    renderOtpStep(normalized);
+  } catch (e) {
+    loadBtn(btn, false);
+    resetTurnstile(); btn.disabled = true;      // token is single-use — force re-solve
+    alertHost.append(alert("err", sendOtpMessage(e)));
+  }
+}
+
+function sendOtpMessage(e) {
+  if (e.network) return e.message;
+  if (e.status === 404) return "Web login isn’t available yet. Please use the SogoApp mobile app for now.";
+  if (e.status === 429) {
+    const secs = e.data && (e.data.retryAfterSec || e.data.retry_after);
+    return "Too many attempts. Please wait" + (secs ? " " + secs + " seconds" : " a moment") + " and try again.";
+  }
+  if (e.status === 428) {
+    if (e.code === "TURNSTILE_FAILED" || e.code === "TURNSTILE_REQUIRED") return "Captcha check failed. Please try the captcha again.";
+    if (e.code === "TURNSTILE_UNAVAILABLE") return "Verification is temporarily unavailable. Please try again shortly.";
+    return e.message || "Additional verification is required. Please try again.";
+  }
+  if (e.status === 400) return e.message || "That phone number doesn’t look right.";
+  return e.message || "Couldn’t send the code. Please try again.";
+}
+
+function renderOtpStep(phone) {
+  const app = $("#app");
+  app.className = "wrap";
+  app.replaceChildren();
+  app.append(headerBar(false));
+  const alertHost = el("div");
+  const card = el("div", { class: "card card-pad-lg" });
+
+  const otpInput = el("input", {
+    type: "text", inputmode: "numeric", id: "otp", autocomplete: "one-time-code",
+    maxlength: "6", placeholder: "6-digit code", "aria-label": "Verification code",
+    style: "letter-spacing:.4em;text-align:center;font-size:1.3rem;font-weight:700",
+  });
+  const verifyBtn = el("button", { class: "btn btn-primary", type: "submit" }, el("span", { class: "label" }, "Verify & sign in"));
+
+  const form = el("form", { novalidate: "" },
+    el("h1", {}, "Enter your code"),
+    el("p", { class: "lede" }, "We sent a 6-digit code to ", el("b", { style: "color:var(--ink)" }, phone), "."),
+    el("div", { class: "field" }, el("label", { for: "otp" }, "Verification code"), otpInput),
+    verifyBtn,
+    el("div", { class: "btn-row", style: "margin-top:14px" },
+      el("button", { class: "linkbtn", type: "button", onclick: () => renderLogin() }, "← Change number")),
+  );
+  form.addEventListener("submit", (e) => { e.preventDefault(); doVerifyOtp(phone, otpInput.value.trim(), verifyBtn, alertHost); });
+  card.append(form);
+  app.append(alertHost, card, footer());
+  setTimeout(() => otpInput.focus(), 60);
+}
+
+async function doVerifyOtp(phone, otp, btn, alertHost) {
+  alertHost.replaceChildren();
+  if (!/^\d{4,8}$/.test(otp)) { alertHost.append(alert("err", "Enter the numeric code we sent you.")); return; }
+  loadBtn(btn, true, "Verifying…");
+  try {
+    const res = await api("/api/v1/users/auth/phone/verify-otp", {
+      method: "POST", auth: false,
+      body: { phone_number: phone, otp: otp },
+    });
+    const token = res && res.data && res.data.access_token;
+    if (!token) throw { message: "Sign-in failed — no token returned." };
+    setToken(token);
+    renderDashboard();
+  } catch (e) {
+    loadBtn(btn, false);
+    let msg = e.message || "Couldn’t verify that code.";
+    if (e.status === 429) msg = "Too many attempts. Please wait a moment and try again.";
+    else if (e.status === 400 || e.status === 401) msg = "That code is incorrect or expired. Please try again.";
+    alertHost.append(alert("err", msg));
+  }
+}
+
+/* ============================================================================
+   2 · DASHBOARD
+   ========================================================================== */
+async function renderDashboard() {
+  const app = $("#app");
+  app.className = "wrap dash-wrap";
+  app.replaceChildren();
+  app.append(headerBar(true));
+  const loading = el("div", { class: "center-load" }, el("span", { class: "spin" }), "Loading your campaigns…");
+  app.append(loading);
+
+  let wallet = null, promos = [];
+  try {
+    const [w, p] = await Promise.allSettled([ api("/api/v1/wallet"), api("/api/v1/promotions/mine") ]);
+    if (w.status === "fulfilled") wallet = w.value && w.value.data;
+    if (p.status === "fulfilled") promos = (p.value && p.value.data && p.value.data.promotions) || [];
+  } catch (_) {}
+
+  // If a 401 mid-load already bounced us to the login screen (api() clears the
+  // token + re-renders), don't paint dashboard chrome on top of it.
+  if (!getToken()) return;
+
+  loading.remove();
+
+  // wallet card
+  const balCents = wallet ? Number(wallet.balanceCents || 0) : null;
+  const walletCard = el("div", { class: "wallet" },
+    el("div", {},
+      el("div", { class: "lbl" }, "Wallet balance"),
+      el("div", { class: "amt" }, balCents === null ? "—" : money(balCents))),
+    el("a", { class: "btn btn-ghost btn-sm", href: RECHARGE_URL, target: "_blank", rel: "noopener" }, "Add funds"),
+  );
+  app.append(walletCard);
+
+  // new campaign
+  app.append(el("button", { class: "btn btn-green", onclick: () => renderCreate(wallet) },
+    el("span", {}, "＋ New campaign")));
+
+  // list
+  app.append(el("div", { class: "sec-head" }, el("h2", {}, "Your campaigns")));
+  if (!promos.length) {
+    app.append(el("div", { class: "card" }, el("div", { class: "empty" },
+      "No campaigns yet. Create your first boost to reach more people.")));
+  } else {
+    const list = el("div", {});
+    promos.forEach((p) => list.append(campaignRow(p)));
+    app.append(list);
+  }
+  app.append(footer());
+}
+
+function campaignRow(p) {
+  const isUsd = (p.currency || "coins") === "usd";
+  const budget = isUsd ? money(p.budgetCents) : (Number(p.budgetCoins || 0) + " coins");
+  const spent  = isUsd ? money(p.spentCents) : (Number(p.spentCoins || 0) + " coins");
+  const reach  = Number(p.paidViews || 0);
+  const impressions = Number(p.impressions || 0);
+  const status = String(p.status || "").toLowerCase();
+  const thumb = el("div", { class: "camp-thumb" }, "📣");   // status media not returned by /mine
+  return el("div", { class: "camp" },
+    thumb,
+    el("div", { class: "camp-body" },
+      el("div", { class: "camp-title" }, "Boost #" + p.id),
+      el("div", { class: "camp-meta" },
+        el("span", {}, "Budget ", el("b", {}, budget)),
+        el("span", {}, "Spent ", el("b", {}, spent)),
+        el("span", {}, "Reach ", el("b", {}, reach.toLocaleString()),
+          impressions ? " · " + impressions.toLocaleString() + " views" : ""))),
+    el("span", { class: "pill " + (status || "ended") }, status || "ended"),
+  );
+}
+
+/* ============================================================================
+   3 · CREATE BOOST
+   ========================================================================== */
+async function renderCreate(wallet) {
+  const app = $("#app");
+  app.className = "wrap dash-wrap";
+  app.replaceChildren();
+  app.append(headerBar(true));
+  app.append(el("div", { class: "btn-row", style: "margin-bottom:12px" },
+    el("button", { class: "linkbtn", onclick: () => renderDashboard() }, "← Back to dashboard")));
+
+  const card = el("div", { class: "card" });
+  card.append(el("h2", {}, "New campaign"));
+  const alertHost = el("div");
+  card.append(alertHost);
+
+  // --- status picker ---
+  const pickerHost = el("div", {});
+  pickerHost.append(el("div", { class: "center-load" }, el("span", { class: "spin" }), "Loading your statuses…"));
+  card.append(el("div", { class: "field" }, el("label", {}, "Choose a status to boost"), pickerHost));
+
+  const state = { statusId: null, budgetCents: 0, minCents: DEFAULT_MIN_CENTS };
+
+  let statuses = [];
+  let manualMode = false;
+  try {
+    const r = await api("/api/v1/status/my-status");
+    statuses = (r && r.data && r.data.statuses) || [];
+  } catch (e) {
+    manualMode = true;   // endpoint unavailable → degrade to manual id entry
+  }
+  pickerHost.replaceChildren();
+
+  if (manualMode || !statuses.length) {
+    if (!manualMode && !statuses.length) {
+      pickerHost.append(alert("warn", "You don’t have any active statuses right now. Post a status in the app, then boost it here — or paste its ID below."));
+    }
+    const idInput = el("input", { type: "text", placeholder: "Status ID", "aria-label": "Status ID" });
+    idInput.addEventListener("input", () => { state.statusId = idInput.value.trim() || null; });
+    pickerHost.append(el("p", { class: "hint", style: "margin-bottom:8px" }, "Enter the ID of the status you want to boost."), idInput);
+  } else {
+    const grid = el("div", { class: "status-grid" });
+    statuses.forEach((s) => {
+      const id = s.status_id;
+      const type = (s.content_type || "").toLowerCase();
+      const thumbUrl = s.thumbnail_url || (type === "image" ? s.content : null);
+      const opt = el("div", { class: "status-opt", role: "button", tabindex: "0", "aria-label": "Status " + id });
+      if (thumbUrl) opt.append(el("img", { src: thumbUrl, alt: "", loading: "lazy", onerror: function(){ this.remove(); opt.prepend(el("div",{class:"txt"}, s.caption || "Status")); } }));
+      else opt.append(el("div", { class: "txt" }, s.caption || (type === "text" ? "Text status" : "Status")));
+      opt.append(el("div", { class: "type-badge" }, type === "video" ? "▶ Video" : type === "image" ? "🖼 Photo" : "✎ Text"));
+      opt.append(el("div", { class: "check" }, "✓"));
+      const select = () => {
+        grid.querySelectorAll(".status-opt").forEach((n) => n.classList.remove("sel"));
+        opt.classList.add("sel"); state.statusId = id;
+      };
+      opt.addEventListener("click", select);
+      opt.addEventListener("keydown", (ev) => { if (ev.key === "Enter" || ev.key === " ") { ev.preventDefault(); select(); } });
+      grid.append(opt);
+    });
+    pickerHost.append(grid);
+  }
+
+  // --- budget ---
+  const minDollars = (state.minCents / 100).toFixed(2);
+  const budgetInput = el("input", { type: "number", inputmode: "decimal", min: minDollars, step: "0.01",
+    placeholder: minDollars, "aria-label": "Budget in US dollars" });
+  const chipsWrap = el("div", { class: "chips" });
+  [5, 10, 25, 50].forEach((d) => {
+    const chip = el("button", { class: "chip", type: "button" }, "$" + d);
+    chip.addEventListener("click", () => {
+      chipsWrap.querySelectorAll(".chip").forEach((c) => c.classList.remove("sel"));
+      chip.classList.add("sel"); budgetInput.value = d.toFixed(2);
+    });
+    chipsWrap.append(chip);
+  });
+  budgetInput.addEventListener("input", () => chipsWrap.querySelectorAll(".chip").forEach((c) => c.classList.remove("sel")));
+
+  card.append(el("div", { class: "field" },
+    el("label", {}, "Budget"),
+    chipsWrap,
+    el("div", { class: "dollar-input" }, el("span", {}, "$"), budgetInput),
+    el("p", { class: "hint" }, "Minimum " + money(state.minCents) + " · charged from your wallet balance.")));
+
+  // --- targeting (optional) ---
+  const genderSel = el("select", { "aria-label": "Target gender" },
+    el("option", { value: "" }, "Everyone"),
+    el("option", { value: "male" }, "Men"),
+    el("option", { value: "female" }, "Women"));
+  const countryInput = el("input", { type: "text", placeholder: "e.g. US, GB, NG", "aria-label": "Target countries (ISO codes)" });
+  const ageMin = el("input", { type: "number", min: "18", max: "99", placeholder: "18", "aria-label": "Minimum age" });
+  const ageMax = el("input", { type: "number", min: "18", max: "99", placeholder: "Any", "aria-label": "Maximum age" });
+
+  const targeting = el("details", { class: "targeting" },
+    el("summary", {}, el("span", {}, "🎯 Targeting ", el("span", { style: "color:var(--muted);font-weight:500" }, "· optional (Everyone)")), el("span", { class: "caret" }, "▾")),
+    el("div", { class: "targeting-body" },
+      el("div", { class: "field" }, el("label", {}, "Audience"), genderSel),
+      el("div", { class: "field" }, el("label", {}, "Countries"), countryInput,
+        el("p", { class: "hint" }, "Comma-separated 2-letter country codes. Leave blank for all.")),
+      el("div", { class: "field" }, el("label", {}, "Age range"),
+        el("div", { class: "grid-2" }, ageMin, ageMax))));
+  card.append(targeting);
+
+  // --- submit ---
+  const submitBtn = el("button", { class: "btn btn-primary" }, el("span", { class: "label" }, "Create campaign"));
+  submitBtn.addEventListener("click", () => doCreate({ state, budgetInput, genderSel, countryInput, ageMin, ageMax, submitBtn, alertHost, wallet }));
+  card.append(submitBtn);
+
+  app.append(card, footer());
+}
+
+function buildTargeting(genderSel, countryInput, ageMin, ageMax) {
+  const t = {};
+  if (genderSel.value) t.genders = [genderSel.value];
+  const countries = countryInput.value.split(",").map((c) => c.trim().toUpperCase()).filter(Boolean);
+  if (countries.length) t.countries = countries;
+  const lo = parseInt(ageMin.value, 10), hi = parseInt(ageMax.value, 10);
+  if (!Number.isNaN(lo) || !Number.isNaN(hi)) {
+    const r = {};
+    if (!Number.isNaN(lo)) r.min = Math.max(18, lo);
+    if (!Number.isNaN(hi)) r.max = hi;
+    t.ageRanges = [r];
+  }
+  return Object.keys(t).length ? t : null;
+}
+
+async function doCreate({ state, budgetInput, genderSel, countryInput, ageMin, ageMax, submitBtn, alertHost, wallet }) {
+  alertHost.replaceChildren();
+  if (!state.statusId) { alertHost.append(alert("err", "Please choose a status to boost.")); scrollTo(0, 0); return; }
+  const dollars = parseFloat(budgetInput.value);
+  if (Number.isNaN(dollars) || dollars <= 0) { alertHost.append(alert("err", "Enter a budget amount.")); return; }
+  const budgetCents = Math.round(dollars * 100);
+  if (budgetCents < state.minCents) { alertHost.append(alert("err", "Minimum budget is " + money(state.minCents) + ".")); return; }
+
+  const targeting = buildTargeting(genderSel, countryInput, ageMin, ageMax);
+  const body = { statusId: state.statusId, budgetCents, currency: "usd", idempotencyKey: uuid() };
+  if (targeting) body.targeting = targeting;
+
+  loadBtn(submitBtn, true, "Creating…");
+  try {
+    await api("/api/v1/promotions/", { method: "POST", body });
+    // Success — backend emits PROMOTION_STATUS_UPDATED so the app reflects it live.
+    sessionStorage.setItem("boost_created", "1");
+    renderDashboard();
+  } catch (e) {
+    loadBtn(submitBtn, false);
+    if (e.status === 402 && e.code === "INSUFFICIENT") {
+      const bal = e.data && e.data.balanceCents;
+      alertHost.append(insufficientAlert(bal, budgetCents));
+      scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    let msg = e.message || "Couldn’t create the campaign.";
+    if (e.code === "BELOW_MIN") msg = e.message || "Budget is below the minimum.";
+    else if (e.code === "NO_STATUS") msg = "That status could not be found. It may have expired.";
+    else if (e.code === "NOT_OWNER") msg = "You can only boost your own statuses.";
+    else if (e.code === "INACTIVE") msg = "That status is no longer active. Pick another one.";
+    else if (e.code === "WALLET_FROZEN") msg = "Your wallet is currently frozen. Please contact support.";
+    else if (e.code === "AGE_GATE") msg = "Please confirm you are 18+ in the app before boosting.";
+    else if (e.code === "TEST_ACCOUNT") msg = "Boosting isn’t available for this account.";
+    alertHost.append(alert("err", msg));
+    scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+function insufficientAlert(balCents, needCents) {
+  const box = el("div", { class: "alert warn" },
+    el("span", { class: "alert-ico" }, "⚠️"),
+    el("div", {},
+      el("div", { style: "font-weight:700;color:var(--ink);margin-bottom:4px" }, "Not enough balance"),
+      el("div", {}, (balCents != null ? "Your wallet has " + money(balCents) + ". " : "") +
+        "This campaign needs " + money(needCents) + "."),
+      el("a", { class: "btn btn-primary btn-sm", href: RECHARGE_URL, target: "_blank", rel: "noopener",
+        style: "margin-top:10px;display:inline-flex" }, "Add funds →")));
+  return box;
+}
+
+/* ============================================================================
+   Shared UI
+   ========================================================================== */
+function headerBar(loggedIn) {
+  const right = loggedIn
+    ? el("button", { class: "btn btn-ghost btn-sm", onclick: () => { clearToken(); resetTurnstile(); turnstileWidgetId = null; renderLogin(); } }, "Log out")
+    : null;
+  return el("div", { class: "top" },
+    el("div", { class: "brand" }, el("span", { class: "logo" }, "S"), el("span", {}, "SogoApp ", el("span", { style: "color:var(--muted);font-weight:600" }, "Boost"))),
+    right);
+}
+
+function footer() {
+  return el("div", { class: "foot" },
+    el("div", {}, "Boosts are charged from your SogoApp wallet balance."),
+    el("div", { style: "margin-top:6px" },
+      el("a", { href: "https://sogoapps.com/privacy-policy/", target: "_blank", rel: "noopener" }, "Privacy"),
+      " · ",
+      el("a", { href: "https://sogoapps.com/terms-of-service/", target: "_blank", rel: "noopener" }, "Terms"),
+      " · ",
+      el("a", { href: "https://sogoapps.com/support/", target: "_blank", rel: "noopener" }, "Support")));
+}
+
+function alert(kind, msg) {
+  const ico = { err: "⛔", ok: "✅", warn: "⚠️", info: "ℹ️" }[kind] || "ℹ️";
+  return el("div", { class: "alert " + kind, role: kind === "err" ? "alert" : "status" },
+    el("span", { class: "alert-ico" }, ico), el("div", {}, msg));
+}
+
+function loadBtn(btn, loading, text) {
+  const label = btn.querySelector(".label") || btn;
+  if (loading) {
+    btn.disabled = true;
+    btn.dataset.txt = label.textContent;
+    label.replaceChildren(el("span", { class: "spin" }), " " + (text || "Working…"));
+  } else {
+    btn.disabled = false;
+    if (btn.dataset.txt) label.textContent = btn.dataset.txt;
+  }
+}
+
+/* ============================================================================
+   Boot
+   ========================================================================== */
+function boot() {
+  if (getToken()) renderDashboard();
+  else renderLogin();
+  // one-time success toast after a create
+  if (sessionStorage.getItem("boost_created")) {
+    sessionStorage.removeItem("boost_created");
+    setTimeout(() => {
+      const app = $("#app");
+      if (app && getToken()) app.prepend(alert("ok", "Campaign created! Your boost is live and will appear in the app."));
+    }, 400);
+  }
+}
+document.addEventListener("DOMContentLoaded", boot);
+</script>
+</body>
+</html>
