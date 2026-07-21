@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="dark" />
 <meta name="robots" content="noindex" />
 <title>SogoApp — Boost Portal</title>
-<link rel="preconnect" href="https://api.sogoapps.com" crossorigin />
+<link rel="preconnect" href="https://dev.sogoapps.com" crossorigin />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%233E72FE'/%3E%3Ctext x='16' y='22' font-size='18' font-family='Arial' font-weight='bold' fill='white' text-anchor='middle'%3ES%3C/text%3E%3C/svg%3E" />
 <style>
 /* ============================================================
@@ -191,7 +191,7 @@ details.targeting[open] > summary .caret{transform:rotate(180deg)}
    SogoApp Boost Portal
    Static SPA · GitHub Pages (sogoapps.com/portal) · calls api.sogoapps.com (CORS *)
    ========================================================================== */
-const API   = "https://api.sogoapps.com";
+const API   = "https://dev.sogoapps.com"; // TESTING on dev — flip to https://api.sogoapps.com at production launch (after promoting the economy + web-auth to prod)
 const RECHARGE_URL = API + "/recharge";          // existing web top-up page
 const TURNSTILE_SITE_KEY = "0x4AAAAAAD3-6y3M__hLxeZe";  // public site key (hostname sogoapps.com)
 const TOKEN_KEY = "sogo_boost_token";
