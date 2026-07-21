@@ -22,12 +22,17 @@ invite if that endpoint/CORS isn't available.
 - `.well-known/apple-app-site-association` — iOS Universal Links (`VMD48Q7N3N.com.org.sogo`)
 - `.well-known/assetlinks.json` — Android App Links (`com.org.sogo`, real signing fingerprints)
 - `.nojekyll` — REQUIRED so GitHub Pages serves the dot-prefixed `.well-known/` folder
-- `CNAME` — `sogoapps.com`
 
-## Enable GitHub Pages (already done via API, but to confirm/redo)
-Repo → **Settings → Pages** → Source = **Deploy from a branch** → Branch = **`gh-pages`** / `/ (root)` → Save.
-Then **Settings → Pages → Custom domain** should already show `sogoapps.com` (from the CNAME file);
-tick **Enforce HTTPS** once the cert is issued (a few minutes after DNS is correct).
+## Status — LIVE NOW (preview)
+GitHub Pages is enabled from the `gh-pages` branch and serving at:
+**https://sogo4app.github.io/sogoapp-web/** (e.g. `/training/24`).
+The custom domain is intentionally NOT set yet, so this preview URL works before DNS.
+
+## Go live on `sogoapps.com` (do these in order)
+1. **Set the DNS** (below).
+2. Repo → **Settings → Pages → Custom domain** → enter `sogoapps.com` → Save.
+   (This re-creates the `CNAME` file on the branch and switches serving to the apex.)
+3. Tick **Enforce HTTPS** once the cert issues (a few minutes after DNS is correct).
 
 ## DNS to set (at Cloudflare, on the `sogoapps.com` zone)
 
