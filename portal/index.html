@@ -220,6 +220,42 @@ const el = (tag, attrs = {}, ...kids) => {
   return n;
 };
 const money = (cents) => "$" + (Number(cents || 0) / 100).toFixed(2);
+
+/* ============================================================================
+   LIVE WALLET — Socket.IO. The backend emits `wallet_update` {balanceCents} to
+   the owner's devices after a top-up credits (webhook/confirm/reconcile), so the
+   balance reflects a web payment live — no manual refresh, no dead deep link.
+   ========================================================================== */
+let _sock = null, _sockLoading = false;
+function updateWalletAmount(cents) {
+  if (cents == null) return;
+  const elAmt = document.getElementById("walletAmt");
+  if (elAmt) elAmt.textContent = money(cents);
+}
+function connectSocket() {
+  if (_sock || _sockLoading) { registerSocket(); return; }
+  if (window.io) { openSocket(); return; }
+  _sockLoading = true;
+  const s = document.createElement("script");
+  s.src = API + "/socket.io/socket.io.js";
+  s.onload = () => { _sockLoading = false; openSocket(); };
+  s.onerror = () => { _sockLoading = false; /* balance still refreshes on dashboard re-open */ };
+  document.head.appendChild(s);
+}
+function openSocket() {
+  if (_sock || !window.io) return;
+  try {
+    _sock = window.io(API, { path: "/socket.io/", transports: ["websocket", "polling"], reconnection: true });
+    _sock.on("connect", registerSocket);
+    _sock.on("wallet_update", (d) => { if (d && d.balanceCents != null) updateWalletAmount(d.balanceCents); });
+  } catch (e) { /* non-fatal */ }
+}
+function registerSocket() {
+  if (!_sock) return;
+  const phone = (localStorage.getItem(PHONE_KEY) || "").replace(/^\+/, "");
+  if (!phone) return;
+  try { _sock.emit("register", { phoneNumber: phone, deviceType: "web", appState: "foreground" }); } catch (e) {}
+}
 const getToken = () => localStorage.getItem(TOKEN_KEY);
 const setToken = (t) => localStorage.setItem(TOKEN_KEY, t);
 const clearToken = () => { localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(PHONE_KEY); };
@@ -420,6 +456,7 @@ async function doVerifyOtp(phone, otp, btn, alertHost) {
    2 · DASHBOARD
    ========================================================================== */
 async function renderDashboard() {
+  connectSocket();               // live wallet_update balance push
   const app = $("#app");
   app.className = "wrap dash-wrap";
   app.replaceChildren();
@@ -445,7 +482,7 @@ async function renderDashboard() {
   const walletCard = el("div", { class: "wallet" },
     el("div", {},
       el("div", { class: "lbl" }, "Wallet balance"),
-      el("div", { class: "amt" }, balCents === null ? "—" : money(balCents))),
+      el("div", { class: "amt", id: "walletAmt" }, balCents === null ? "—" : money(balCents))),
     el("button", { class: "btn btn-ghost btn-sm", onclick: addFunds }, "Add funds"),
   );
   app.append(walletCard);
@@ -675,7 +712,12 @@ async function addFunds(ev) {
     var r = await api("/api/v1/live/recharge/token", { method: "POST", body: { mode: "wallet" } });
     var d = (r && r.data) || {};
     var url = d.webUrl || (API + "/recharge/?t=" + encodeURIComponent(d.token || "") + "&mode=wallet");
+    url += (url.indexOf("?") === -1 ? "?" : "&") + "src=web";   // tell success page it's a web session (no dead sogo:// return)
     window.open(url, "_blank", "noopener");
+    // Belt-and-suspenders: when the user comes back to this tab, re-pull the balance
+    // (in case the wallet_update socket event was missed).
+    var onFocus = function () { api("/api/v1/wallet").then(function (w) { if (w && w.data) updateWalletAmount(w.data.balanceCents); }).catch(function () {}); };
+    window.addEventListener("focus", onFocus, { once: true });
   } catch (e) {
     window.alert((e && e.message) ? e.message : "Couldn’t open Add funds. Please try again.");
   } finally {
