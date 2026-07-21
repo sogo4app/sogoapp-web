@@ -508,7 +508,7 @@ function campaignRow(p) {
   const isUsd = (p.currency || "coins") === "usd";
   const budget = isUsd ? money(p.budgetCents) : (Number(p.budgetCoins || 0) + " coins");
   const spent  = isUsd ? money(p.spentCents) : (Number(p.spentCoins || 0) + " coins");
-  const reach  = Number(p.paidViews || 0);
+  const views  = Number(p.paidViews || 0);
   const impressions = Number(p.impressions || 0);
   const status = String(p.status || "").toLowerCase();
   const thumb = el("div", { class: "camp-thumb" }, "📣");   // status media not returned by /mine
@@ -519,8 +519,8 @@ function campaignRow(p) {
       el("div", { class: "camp-meta" },
         el("span", {}, "Budget ", el("b", {}, budget)),
         el("span", {}, "Spent ", el("b", {}, spent)),
-        el("span", {}, "Reach ", el("b", {}, reach.toLocaleString()),
-          impressions ? " · " + impressions.toLocaleString() + " views" : ""))),
+        el("span", {}, "Views ", el("b", {}, views.toLocaleString()),
+          impressions ? " · " + impressions.toLocaleString() + " impressions" : ""))),
     el("span", { class: "pill " + (status || "ended") }, status || "ended"),
   );
 }
