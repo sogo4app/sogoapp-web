@@ -3,47 +3,139 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SogoApp — Messaging, calls, live streams &amp; trainings</title>
-<meta name="description" content="SogoApp is a private messenger with HD calls, live streaming and paid live trainings." />
+<title>SogoApp — Messaging, calls, live streams &amp; creator tools</title>
+<meta name="description" content="SogoApp is a private messenger with HD calls, live streaming and paid trainings. Creators: promote your status and reach more people from your Boost Dashboard." />
 <meta property="og:site_name" content="SogoApp" />
 <meta property="og:title" content="SogoApp" />
-<meta property="og:description" content="Private messaging, calls, live streams and trainings." />
+<meta property="og:description" content="Private messaging, calls, live streams — and a Boost Dashboard to promote your status." />
 <meta property="og:type" content="website" />
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
-  :root { --bg:#0a0a0a; --surface:#161616; --surface2:#1f1f1f; --text:#fff; --dim:#9a9a9a; --brand:#3e72fe; --border:rgba(255,255,255,.08); }
-  html,body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; min-height:100%; }
+  :root { --bg:#0a0a0a; --surface:#161616; --surface2:#1f1f1f; --text:#fff; --dim:#9a9a9a; --brand:#3e72fe; --brand2:#2a56d6; --green:#128c4a; --border:rgba(255,255,255,.08); }
+  html,body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; min-height:100%; -webkit-font-smoothing:antialiased; }
   a { color:inherit; text-decoration:none; }
-  .page { min-height:100vh; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 16px;
-    background:radial-gradient(60% 40% at 50% 0%, rgba(62,114,254,.14), transparent 70%), var(--bg); }
-  .card { width:100%; max-width:420px; background:var(--surface); border:1px solid var(--border); border-radius:24px; padding:32px 24px; text-align:center; }
-  .logo-row { display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:24px; }
-  .logo-mark { width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg,#3e72fe,#2a56d6); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:20px; }
-  .logo-name { font-size:20px; font-weight:700; }
-  .title { font-size:24px; font-weight:700; line-height:1.25; margin-bottom:8px; }
-  .subtitle { font-size:15px; color:var(--dim); line-height:1.5; margin-bottom:24px; }
-  .stores { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; }
-  .btn-store { flex:1 1 45%; display:flex; align-items:center; justify-content:center; gap:8px; background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:12px 14px; font-size:14px; font-weight:600; }
-  .footer { margin-top:28px; font-size:12.5px; color:var(--dim); text-align:center; }
-  .footer a { color:var(--brand); }
+  img { max-width:100%; }
+  .wrap { max-width:960px; margin:0 auto; padding:0 20px; }
+
+  /* Header */
+  header { position:sticky; top:0; z-index:10; backdrop-filter:blur(10px); background:rgba(10,10,10,.72); border-bottom:1px solid var(--border); }
+  .nav { display:flex; align-items:center; justify-content:space-between; height:60px; }
+  .brand { display:flex; align-items:center; gap:10px; }
+  .logo-mark { width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg,var(--brand),var(--brand2)); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px; }
+  .brand-name { font-weight:700; font-size:17px; }
+  .nav-cta { background:var(--brand); color:#fff; font-weight:600; font-size:13.5px; padding:9px 16px; border-radius:10px; white-space:nowrap; }
+  .nav-cta:active { opacity:.85; }
+
+  /* Hero */
+  .hero { text-align:center; padding:64px 0 40px; background:radial-gradient(70% 50% at 50% -10%, rgba(62,114,254,.16), transparent 70%); }
+  .hero h1 { font-size:40px; line-height:1.1; font-weight:800; letter-spacing:-.5px; margin-bottom:16px; }
+  .hero h1 .grad { background:linear-gradient(120deg,#7fa0ff,#3e72fe); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+  .hero p { font-size:17px; color:var(--dim); max-width:520px; margin:0 auto 28px; line-height:1.55; }
+  .stores { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
+  .btn-store { display:inline-flex; align-items:center; gap:8px; background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:13px 20px; font-size:14px; font-weight:600; }
+  .btn-store:active { opacity:.85; }
+
+  /* Promote band — the prominent creator CTA */
+  .promote { margin:28px 0 44px; }
+  .promote-card { background:linear-gradient(135deg, rgba(62,114,254,.14), rgba(18,140,74,.10)); border:1px solid rgba(62,114,254,.28); border-radius:24px; padding:40px 28px; text-align:center; position:relative; overflow:hidden; }
+  .promote-badge { display:inline-block; font-size:12px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--brand); background:rgba(62,114,254,.14); border-radius:999px; padding:6px 14px; margin-bottom:16px; }
+  .promote-card h2 { font-size:28px; font-weight:800; line-height:1.2; margin-bottom:12px; letter-spacing:-.3px; }
+  .promote-card p { font-size:16px; color:var(--dim); max-width:520px; margin:0 auto 26px; line-height:1.55; }
+  .btn-primary { display:inline-flex; align-items:center; gap:8px; background:var(--brand); color:#fff; font-size:16px; font-weight:700; padding:16px 28px; border-radius:14px; box-shadow:0 8px 28px rgba(62,114,254,.32); }
+  .btn-primary:active { transform:translateY(1px); }
+  .promote-sub { margin-top:14px; font-size:13px; color:var(--dim); }
+
+  /* How it works */
+  .steps { padding:8px 0 56px; }
+  .steps h3 { text-align:center; font-size:14px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; color:var(--dim); margin-bottom:28px; }
+  .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  .step { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:24px 20px; }
+  .step-num { width:34px; height:34px; border-radius:10px; background:rgba(62,114,254,.14); color:var(--brand); font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+  .step h4 { font-size:16px; font-weight:700; margin-bottom:6px; }
+  .step p { font-size:14px; color:var(--dim); line-height:1.5; }
+
+  /* Footer */
+  footer { border-top:1px solid var(--border); padding:28px 0 40px; }
+  .foot { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+  .foot .links a { color:var(--dim); font-size:13.5px; margin-right:16px; }
+  .foot .links a:hover { color:var(--text); }
+  .foot .copy { color:var(--dim); font-size:13px; }
+
+  @media (max-width:640px) {
+    .hero h1 { font-size:32px; }
+    .steps-grid { grid-template-columns:1fr; }
+    .nav-cta { padding:8px 14px; }
+  }
 </style>
 </head>
 <body>
-<main class="page">
-  <div class="card">
-    <div class="logo-row"><div class="logo-mark">S</div><div class="logo-name">SogoApp</div></div>
-    <h1 class="title">Messaging, calls, live streams &amp; trainings</h1>
-    <p class="subtitle">Private conversations, HD group calls, live streaming and paid trainings — all in one app.</p>
-    <div class="stores">
-      <a class="btn-store" href="https://play.google.com/store/apps/details?id=com.org.sogo">▶ Google Play</a>
-      <a class="btn-store" href="https://apps.apple.com/app/sogoapp"> App Store</a>
-    </div>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="/">
+      <div class="logo-mark">S</div>
+      <div class="brand-name">SogoApp</div>
+    </a>
+    <a class="nav-cta" href="/portal/">Boost Dashboard</a>
   </div>
-  <footer class="footer">
-    <a href="https://app.sogoapps.com">About</a> ·
-    <a href="https://app.sogoapps.com/privacy-policy/">Privacy</a> ·
-    <a href="https://app.sogoapps.com/terms-of-service/">Terms</a>
-  </footer>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <h1>Messaging, calls, live streams<br><span class="grad">&amp; creator tools</span></h1>
+      <p>Private conversations, HD group calls, live streaming and paid trainings — all in one app.</p>
+      <div class="stores">
+        <a class="btn-store" href="https://play.google.com/store/apps/details?id=com.org.sogo">▶&nbsp; Get it on Google Play</a>
+        <a class="btn-store" href="https://apps.apple.com/app/sogoapp">&nbsp; Download on the App Store</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap promote">
+    <div class="promote-card">
+      <div class="promote-badge">For creators</div>
+      <h2>Promote your status.<br>Reach more people.</h2>
+      <p>Boost any status to put it in front of a wider audience — set your budget, choose who sees it, and track your reach. Manage everything from your Boost Dashboard on the web.</p>
+      <a class="btn-primary" href="/portal/">Open Boost Dashboard →</a>
+      <div class="promote-sub">Log in with your SogoApp phone number — same account as the app.</div>
+    </div>
+  </section>
+
+  <section class="wrap steps">
+    <h3>How boosting works</h3>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Log in on the web</h4>
+        <p>Open the Boost Dashboard and sign in with your SogoApp phone number.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Pick a status &amp; budget</h4>
+        <p>Choose the status you want to promote, set a dollar budget, and pick your audience.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>Go live &amp; track</h4>
+        <p>Your campaign starts reaching people right away — its status shows live inside the app.</p>
+      </div>
+    </div>
+  </section>
 </main>
+
+<footer>
+  <div class="wrap foot">
+    <div class="links">
+      <a href="https://app.sogoapps.com">About</a>
+      <a href="/portal/">Boost Dashboard</a>
+      <a href="https://app.sogoapps.com/privacy-policy/">Privacy</a>
+      <a href="https://app.sogoapps.com/terms-of-service/">Terms</a>
+      <a href="https://app.sogoapps.com/support/">Support</a>
+    </div>
+    <div class="copy">© SogoApp</div>
+  </div>
+</footer>
+
 </body>
 </html>
