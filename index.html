@@ -1,142 +1,270 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
 <meta name="impact-site-verification" value="a8f95f63-ebc5-45f0-a4da-2a060c501ea9" />
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>SogoApp — Messaging, calls, live streams &amp; creator tools</title>
-<meta name="description" content="SogoApp is a private messenger with HD calls, live streaming and paid trainings. Creators: promote your status and reach more people from your Boost Dashboard." />
-<meta property="og:site_name" content="SogoApp" />
-<meta property="og:title" content="SogoApp" />
-<meta property="og:description" content="Private messaging, calls, live streams — and a Boost Dashboard to promote your status." />
-<meta property="og:type" content="website" />
-<style>
-  * { margin:0; padding:0; box-sizing:border-box; }
-  :root { --bg:#0a0a0a; --surface:#161616; --surface2:#1f1f1f; --text:#fff; --dim:#9a9a9a; --brand:#3e72fe; --brand2:#2a56d6; --green:#128c4a; --border:rgba(255,255,255,.08); }
-  html,body { background:var(--bg); color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; min-height:100%; -webkit-font-smoothing:antialiased; }
-  a { color:inherit; text-decoration:none; }
-  img { max-width:100%; }
-  .wrap { max-width:960px; margin:0 auto; padding:0 20px; }
-
-  /* Header */
-  header { position:sticky; top:0; z-index:10; backdrop-filter:blur(10px); background:rgba(10,10,10,.72); border-bottom:1px solid var(--border); }
-  .nav { display:flex; align-items:center; justify-content:space-between; height:60px; }
-  .brand { display:flex; align-items:center; gap:10px; }
-  .logo-mark { width:32px; height:32px; border-radius:9px; background:linear-gradient(135deg,var(--brand),var(--brand2)); display:flex; align-items:center; justify-content:center; font-weight:800; font-size:16px; }
-  .brand-name { font-weight:700; font-size:17px; }
-  .nav-cta { background:var(--brand); color:#fff; font-weight:600; font-size:13.5px; padding:9px 16px; border-radius:10px; white-space:nowrap; }
-  .nav-cta:active { opacity:.85; }
-
-  /* Hero */
-  .hero { text-align:center; padding:64px 0 40px; background:radial-gradient(70% 50% at 50% -10%, rgba(62,114,254,.16), transparent 70%); }
-  .hero h1 { font-size:40px; line-height:1.1; font-weight:800; letter-spacing:-.5px; margin-bottom:16px; }
-  .hero h1 .grad { background:linear-gradient(120deg,#7fa0ff,#3e72fe); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
-  .hero p { font-size:17px; color:var(--dim); max-width:520px; margin:0 auto 28px; line-height:1.55; }
-  .stores { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; }
-  .btn-store { display:inline-flex; align-items:center; gap:8px; background:var(--surface2); border:1px solid var(--border); border-radius:12px; padding:13px 20px; font-size:14px; font-weight:600; }
-  .btn-store:active { opacity:.85; }
-
-  /* Promote band — the prominent creator CTA */
-  .promote { margin:28px 0 44px; }
-  .promote-card { background:linear-gradient(135deg, rgba(62,114,254,.14), rgba(18,140,74,.10)); border:1px solid rgba(62,114,254,.28); border-radius:24px; padding:40px 28px; text-align:center; position:relative; overflow:hidden; }
-  .promote-badge { display:inline-block; font-size:12px; font-weight:700; letter-spacing:1.2px; text-transform:uppercase; color:var(--brand); background:rgba(62,114,254,.14); border-radius:999px; padding:6px 14px; margin-bottom:16px; }
-  .promote-card h2 { font-size:28px; font-weight:800; line-height:1.2; margin-bottom:12px; letter-spacing:-.3px; }
-  .promote-card p { font-size:16px; color:var(--dim); max-width:520px; margin:0 auto 26px; line-height:1.55; }
-  .btn-primary { display:inline-flex; align-items:center; gap:8px; background:var(--brand); color:#fff; font-size:16px; font-weight:700; padding:16px 28px; border-radius:14px; box-shadow:0 8px 28px rgba(62,114,254,.32); }
-  .btn-primary:active { transform:translateY(1px); }
-  .promote-sub { margin-top:14px; font-size:13px; color:var(--dim); }
-
-  /* How it works */
-  .steps { padding:8px 0 56px; }
-  .steps h3 { text-align:center; font-size:14px; font-weight:700; letter-spacing:1.4px; text-transform:uppercase; color:var(--dim); margin-bottom:28px; }
-  .steps-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
-  .step { background:var(--surface); border:1px solid var(--border); border-radius:18px; padding:24px 20px; }
-  .step-num { width:34px; height:34px; border-radius:10px; background:rgba(62,114,254,.14); color:var(--brand); font-weight:800; display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
-  .step h4 { font-size:16px; font-weight:700; margin-bottom:6px; }
-  .step p { font-size:14px; color:var(--dim); line-height:1.5; }
-
-  /* Footer */
-  footer { border-top:1px solid var(--border); padding:28px 0 40px; }
-  .foot { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
-  .foot .links a { color:var(--dim); font-size:13.5px; margin-right:16px; }
-  .foot .links a:hover { color:var(--text); }
-  .foot .copy { color:var(--dim); font-size:13px; }
-
-  @media (max-width:640px) {
-    .hero h1 { font-size:32px; }
-    .steps-grid { grid-template-columns:1fr; }
-    .nav-cta { padding:8px 14px; }
-  }
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SogoApp — Chat, Go Live &amp; Earn</title>
+<meta name="description" content="SogoApp by Sogoapp LLC: messaging, voice and video calls, group chats, status, live streaming and a coin wallet. Free on iOS and Android.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="assets/icon.png"><link rel="apple-touch-icon" href="assets/icon.png">
+<meta property="og:title" content="SogoApp — Chat, Go Live &amp; Earn">
+<meta property="og:description" content="Messaging, calls, group chats, status, live streaming and a coin wallet — in one app.">
+<meta property="og:type" content="website"><meta property="og:url" content="https://app.sogoapps.com">
+<meta property="og:image" content="https://app.sogoapps.com/assets/shots/chat.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+<div class="room"></div>
 
-<header>
-  <div class="wrap nav">
-    <a class="brand" href="/">
-      <div class="logo-mark">S</div>
-      <div class="brand-name">SogoApp</div>
-    </a>
-    <a class="nav-cta" href="/portal/">Boost Dashboard</a>
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="/" aria-label="SogoApp"><img src="assets/wordmark.png" alt="SogoApp"></a>
+    <nav class="nav-links">
+      <a href="#features">Features</a><a href="#coins">Coins</a><a href="#earn">Earning</a>
+      <a href="#privacy">Privacy</a><a href="#business">Business</a><a href="https://app.sogoapps.com/faq/">FAQ</a><a href="https://app.sogoapps.com/support">Support</a>
+    </nav>
+    <a class="btn btn-p" href="#get">Get the app</a>
   </div>
 </header>
 
-<main>
-  <section class="hero">
-    <div class="wrap">
-      <h1>Messaging, calls, live streams<br><span class="grad">&amp; creator tools</span></h1>
-      <p>Private conversations, HD group calls, live streaming and paid trainings — all in one app.</p>
-      <div class="stores">
-        <a class="btn-store" href="https://play.google.com/store/apps/details?id=com.org.sogo">▶&nbsp; Get it on Google Play</a>
-        <a class="btn-store" href="https://apps.apple.com/app/sogoapp">&nbsp; Download on the App Store</a>
+<section class="hero">
+  <div class="wrap hero-in">
+    <div class="rv">
+      <p class="lbl">Sogoapp LLC · iOS &amp; Android</p>
+      <h1 class="h1">Chat, go <span class="a">live</span><br>&amp; <span class="b">earn</span>.</h1>
+      <p class="p">Messaging, voice and video calls, group chats, status updates and live
+        streaming — with a coin wallet built in, so the people you watch can be paid for it.</p>
+      <div class="cta">
+        <a class="btn btn-p" href="https://play.google.com/store/apps/details?id=com.org.sogo" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3 13.9 12 3.6 21.7A2 2 0 0 1 3 20.3V3.7a2 2 0 0 1 .6-1.4Zm11.8 8.3L5.6 1.4l10.1 5.8 2.2 2.1-2.5 1.3Zm2.5 2.8-2.2 2.1L5.6 22.6l9.8-9.2 2.5 1.3Zm2.4-2.1c1 .6 1 1.8 0 2.4l-2 1.1-2.5-2.3 2.5-2.3 2 1.1Z"/></svg>
+          <span class="st"><small>Get it on</small>Google Play</span></a>
+        <a class="btn btn-g" href="https://apps.apple.com/app/id6760476602" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.2 1.3-2.5 1.3-2.5s-2.5-1-2.5-3.6ZM14.2 5.3c.6-.8 1-1.9.9-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3Z"/></svg>
+          <span class="st"><small>Download on the</small>App Store</span></a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>Free</b><span>to download</span></div>
+        <div class="stat"><b>80%</b><span>to the creator</span></div>
+        <div class="stat"><b>No ads</b><span>inside chats</span></div>
       </div>
     </div>
-  </section>
+    <div class="art rv"><div class="phone"><img src="assets/shots/chat.jpg" width="436" height="900" alt="A SogoApp chat" fetchpriority="high"></div></div>
+  </div>
+</section>
 
-  <section class="wrap promote">
-    <div class="promote-card">
-      <div class="promote-badge">For creators</div>
-      <h2>Promote your status.<br>Reach more people.</h2>
-      <p>Boost any status to put it in front of a wider audience — set your budget, choose who sees it, and track your reach. Manage everything from your Boost Dashboard on the web.</p>
-      <a class="btn-primary" href="/portal/">Open Boost Dashboard →</a>
-      <div class="promote-sub">Log in with your SogoApp phone number — same account as the app.</div>
-    </div>
-  </section>
+<section class="sec" id="features">
+  <div class="wrap">
+    <div class="sec-head rv"><p class="lbl">What you get</p>
+      <h2 class="h2">Everything in one app.</h2>
+      <p class="p">Talk, call, post, broadcast — without switching between four different apps.</p></div>
 
-  <section class="wrap steps">
-    <h3>How boosting works</h3>
-    <div class="steps-grid">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h4>Log in on the web</h4>
-        <p>Open the Boost Dashboard and sign in with your SogoApp phone number.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h4>Pick a status &amp; budget</h4>
-        <p>Choose the status you want to promote, set a dollar budget, and pick your audience.</p>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h4>Go live &amp; track</h4>
-        <p>Your campaign starts reaching people right away — its status shows live inside the app.</p>
-      </div>
+    <div class="row rv" data-c="green">
+      <div class="txt"><h3 class="h3">Messaging that keeps up</h3>
+        <p class="p">Fast one-to-one and group chat with receipts you can trust, replies, media and voice notes.</p>
+        <ul class="ticks"><li><i></i>Delivery and read receipts</li><li><i></i>View-once photos and videos</li><li><i></i>Voice notes, documents, location and contacts</li></ul></div>
+      <div class="art"><div class="phone"><img src="assets/shots/chat.jpg" width="436" height="900" alt="SogoApp chat" loading="lazy"></div></div>
     </div>
-  </section>
-</main>
 
-<footer>
-  <div class="wrap foot">
-    <div class="links">
-      <a href="https://app.sogoapps.com">About</a>
-      <a href="/portal/">Boost Dashboard</a>
-      <a href="https://app.sogoapps.com/privacy-policy/">Privacy</a>
-      <a href="https://app.sogoapps.com/terms-of-service/">Terms</a>
-      <a href="https://app.sogoapps.com/support/">Support</a>
+    <div class="row flip rv" data-c="blue">
+      <div class="txt"><h3 class="h3">Groups for every circle</h3>
+        <p class="p">Family, work, the football chat. Filter by unread, favourites, groups or archived, and search everything at once.</p>
+        <ul class="ticks"><li><i></i>Unread, favourites, groups, archived</li><li><i></i>Group voice and video calls</li><li><i></i>Search across every conversation</li></ul></div>
+      <div class="art"><div class="phone" data-tint="blue"><img src="assets/shots/Group-chat.jpg" width="436" height="900" alt="SogoApp group chats" loading="lazy"></div></div>
     </div>
-    <div class="copy">© SogoApp</div>
+
+    <div class="row rv" data-c="green">
+      <div class="txt"><h3 class="h3">Calls nobody can record</h3>
+        <p class="p">Turn on capture protection and the other side cannot screenshot or screen-record the call. One tap, and it holds for the whole call.</p>
+        <ul class="ticks"><li><i></i>Screenshot and screen-recording blocking</li><li><i></i>Warns you if a camera is pointed at the screen</li><li><i></i>Multi-region call servers</li></ul></div>
+      <div class="art"><div class="phone"><img src="assets/shots/video-call.jpg" width="436" height="900" alt="SogoApp video call with capture protection" loading="lazy"></div></div>
+    </div>
+
+    <div class="row flip rv" data-c="red">
+      <div class="txt"><h3 class="h3">Go live in a tap</h3>
+        <p class="p">Start a stream, bring co-hosts on screen, and let viewers comment and send gifts while you broadcast.</p>
+        <ul class="ticks"><li><i></i>Live viewer count and comments</li><li><i></i>Gifts from your audience</li><li><i></i>Invite co-hosts into the stream</li></ul></div>
+      <div class="art"><div class="phone" data-tint="red"><img src="assets/shots/Live.jpg" width="436" height="900" alt="A SogoApp live stream" loading="lazy"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Coins: what we sell and what it costs. Stripe's review asks for a
+        description of goods and services and for pricing to be visible. ── -->
+<section class="sec" id="coins">
+  <div class="wrap">
+    <div class="sec-head rv"><p class="lbl">What we sell</p>
+      <h2 class="h2">Coins.</h2>
+      <p class="p">Coins are the in-app currency. You buy them inside the app and spend them on
+        gifts for creators you like, or on boosting your own status so more people see it.
+        Every purchase is handled by the App&nbsp;Store or Google&nbsp;Play — we never take your
+        card details.</p></div>
+
+    <div class="packs rv">
+      <div class="pack"><b>70</b><div class="bonus">+21 bonus</div><div class="price">$0.99</div></div>
+      <div class="pack"><b>350</b><div class="bonus">+105 bonus</div><div class="price">$4.99</div></div>
+      <div class="pack"><b>700</b><div class="bonus">+210 bonus</div><div class="price">$9.99</div></div>
+      <div class="pack"><b>1,400</b><div class="bonus">+420 bonus</div><div class="price">$19.99</div></div>
+      <div class="pack"><b>3,500</b><div class="bonus">+1,050 bonus</div><div class="price">$49.99</div></div>
+      <div class="pack"><b>7,000</b><div class="bonus">+2,100 bonus</div><div class="price">$99.99</div></div>
+      <div class="pack"><b>17,500</b><div class="bonus">+5,250 bonus</div><div class="price">$249.99</div></div>
+      <div class="pack"><b>Boost</b><div class="bonus">from 752 coins</div><div class="price">24&nbsp;hours</div></div>
+    </div>
+    <p class="fineprint rv">Prices are in US dollars and may differ by country and store. Coins are a
+      digital item for use inside SogoApp — they have no cash value, cannot be transferred between
+      accounts and are non-refundable once spent. Purchases are made through Apple or Google, so any
+      refund request is handled under their policies; see <a href="https://app.sogoapps.com/terms-of-service">Terms of Service</a>.</p>
+  </div>
+</section>
+
+<!-- ── How money reaches a creator ─────────────────────────────────────── -->
+<section class="sec" id="earn">
+  <div class="wrap">
+    <div class="row rv" data-c="gold">
+      <div class="txt"><p class="lbl">Earning</p>
+        <h2 class="h2">One wallet, start to finish.</h2>
+        <p class="p">Gifts you receive during a live stream become diamonds in your wallet. Once you
+          pass the minimum, you request a withdrawal and we pay it to your bank account.
+          <strong style="color:var(--tx)">Creators receive 80%; SogoApp keeps 20%.</strong></p>
+        <ul class="ticks"><li><i></i>Coins in, diamonds out, one ledger</li><li><i></i>A minimum applies before you can withdraw</li><li><i></i>Paid to a local bank account in supported countries</li></ul></div>
+      <div class="art"><div class="phone" data-tint="gold"><img src="assets/shots/Wallet.jpg" width="436" height="900" alt="SogoApp wallet" loading="lazy"></div></div>
+    </div>
+
+    <div class="row flip rv" data-c="gold">
+      <div class="txt"><h3 class="h3">Or spend coins on reach</h3>
+        <p class="p">Put coins behind a status and it runs for 24 hours beyond your own contacts.
+          You set the budget and choose who can see it.</p>
+        <ul class="ticks"><li><i></i>You choose the budget — more coins, more reach</li><li><i></i>Everyone, or an audience you pick</li><li><i></i>Shown only to people 18 and older</li></ul></div>
+      <div class="art"><div class="phone" data-tint="gold"><img src="assets/shots/status-boost.jpg" width="436" height="900" alt="SogoApp status boost" loading="lazy"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── Privacy — states what is true, and what is not. ─────────────────── -->
+<section class="sec" id="privacy">
+  <div class="wrap">
+    <div class="sec-head rv"><p class="lbl">Privacy</p>
+      <h2 class="h2">Straight answers.</h2>
+      <p class="p">We would rather tell you exactly what is protected than use a word that sounds
+        better than the truth.</p></div>
+    <div class="cards c2 rv">
+      <div class="card"><h3 class="h3">Encrypted in transit</h3><p>Messages and calls are encrypted while they travel between your device and our servers — TLS for data, DTLS-SRTP for call media.</p></div>
+      <div class="card"><h3 class="h3">Staff can't read your chats</h3><p>Our admin tools return message metadata only, never contents. A message can be read only after someone reports it, and every such access is recorded.</p></div>
+      <div class="card"><h3 class="h3">History stays on your device</h3><p>Your chat history lives in the app on your phone. Delete the app or your account and it goes with it.</p></div>
+      <div class="card"><h3 class="h3">No ads in your chats</h3><p>Conversations are not an advertising surface. Promoted posts appear only in the status feed, and they are labelled.</p></div>
+    </div>
+    <div class="note rv"><p><strong>What we don't claim.</strong> SogoApp is <strong>not end-to-end encrypted</strong>.
+      Messages are encrypted in transit and stored on our servers, and a lawful request can compel
+      disclosure. The person you are talking to can still screenshot what you send unless you use
+      view-once media or turn on capture protection. The full detail is in the app under
+      <strong>Settings → Encryption</strong>.</p></div>
+  </div>
+</section>
+
+<!-- ── Business details. This block exists for payment-provider review:
+        legal entity, what is sold, how customers are charged, refunds,
+        how creators are paid, and a working contact route. ── -->
+<section class="sec" id="business">
+  <div class="wrap">
+    <div class="sec-head rv"><p class="lbl">Business information</p>
+      <h2 class="h2">Who we are and how this works.</h2></div>
+    <div class="biz rv">
+      <dl>
+        <dt>Legal entity</dt>
+        <dd><strong>Sogoapp LLC</strong>, a limited liability company registered in the United States.
+          SogoApp is our mobile application for iOS and Android.</dd>
+        <dt>What we sell</dt>
+        <dd>A free messaging, calling and live-streaming app, plus <strong>coins</strong> — a digital
+          in-app currency used to send gifts to creators and to boost a status post for 24 hours.
+          We sell no physical goods and ship nothing.</dd>
+        <dt>How customers are charged</dt>
+        <dd>All consumer purchases are processed by <strong>Apple's App Store</strong> and
+          <strong>Google Play</strong> through their in-app purchase systems. Payment is taken by
+          Apple or Google under their terms; SogoApp never receives or stores card details.</dd>
+      </dl>
+      <dl>
+        <dt>Refunds &amp; cancellations</dt>
+        <dd>Because purchases are made through Apple and Google, refunds are handled under their
+          policies — request one via <strong>reportaproblem.apple.com</strong> or the Google Play
+          order history. Coins are consumable and non-refundable once spent. There is no
+          subscription, so there is nothing to cancel.</dd>
+        <dt>Paying creators</dt>
+        <dd>Gifts received become diamonds. A creator requests a withdrawal in the app and we pay it
+          to their bank account in a supported country. <strong>Creators receive 80%; SogoApp
+          retains 20%.</strong> A minimum balance applies before withdrawal.</dd>
+        <dt>Contact</dt>
+        <dd><a href="mailto:support@sogoappusa.com">support@sogoappusa.com</a><br>
+          Help centre: <a href="https://app.sogoapps.com/support">app.sogoapps.com/support</a><br>
+          Policies: <a href="https://app.sogoapps.com/terms-of-service">Terms of Service</a> ·
+          <a href="https://app.sogoapps.com/privacy-policy">Privacy Policy</a> ·
+          <a href="https://app.sogoapps.com/delete-account">Delete your account</a></dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<section class="band" id="get">
+  <div class="wrap rv">
+    <img class="ic" src="assets/icon.png" alt="" width="68" height="68">
+    <h2 class="h2">Get SogoApp.</h2>
+    <p class="p">Free on iPhone and Android.</p>
+    <div class="cta">
+      <a class="btn btn-p" href="https://play.google.com/store/apps/details?id=com.org.sogo" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3 13.9 12 3.6 21.7A2 2 0 0 1 3 20.3V3.7a2 2 0 0 1 .6-1.4Zm11.8 8.3L5.6 1.4l10.1 5.8 2.2 2.1-2.5 1.3Zm2.5 2.8-2.2 2.1L5.6 22.6l9.8-9.2 2.5 1.3Zm2.4-2.1c1 .6 1 1.8 0 2.4l-2 1.1-2.5-2.3 2.5-2.3 2 1.1Z"/></svg>
+        <span class="st"><small>Get it on</small>Google Play</span></a>
+      <a class="btn btn-g" href="https://apps.apple.com/app/id6760476602" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.4 12.7c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.2-2.8.9-3.5.9-.7 0-1.8-.8-3-.8-1.5 0-2.9.9-3.7 2.3-1.6 2.7-.4 6.8 1.1 9 .8 1.1 1.7 2.3 2.9 2.2 1.2 0 1.6-.7 3-.7s1.8.7 3 .7c1.3 0 2.1-1.1 2.8-2.2.9-1.2 1.3-2.5 1.3-2.5s-2.5-1-2.5-3.6ZM14.2 5.3c.6-.8 1-1.9.9-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2.1-.5 2.8-1.3Z"/></svg>
+        <span class="st"><small>Download on the</small>App Store</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-in">
+      <a class="brand" href="/"><img src="assets/wordmark.png" alt="SogoApp">
+        <p>Messaging, calls, live streaming and a coin wallet. By Sogoapp LLC, United States.</p></a>
+      <div class="fc"><strong>Product</strong><a href="#features">Features</a><a href="#coins">Coins</a><a href="#earn">Earning</a></div>
+      <div class="fc"><strong>Legal</strong><a href="https://app.sogoapps.com/privacy-policy">Privacy Policy</a><a href="https://app.sogoapps.com/terms-of-service">Terms of Service</a></div>
+      <div class="fc"><strong>Help</strong><a href="https://app.sogoapps.com/faq/">FAQ</a><a href="https://app.sogoapps.com/support">Support</a><a href="https://app.sogoapps.com/delete-account">Delete account</a><a href="mailto:support@sogoappusa.com">Email us</a></div>
+    </div>
+    <div class="legal">
+      <span>© <span id="yr">2026</span> Sogoapp LLC. All rights reserved.</span>
+      <span>Apple and App Store are trademarks of Apple Inc. Google Play is a trademark of Google LLC.</span>
+    </div>
   </div>
 </footer>
 
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Reveal on scroll. Deliberately not IntersectionObserver, and gated behind a
+// class JS adds — so a browser that never runs this shows a complete page
+// rather than a blank one.
+var els = [].slice.call(document.querySelectorAll('.rv'));
+if (els.length && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  document.documentElement.classList.add('anim');
+  els.forEach(function (el, i) { el.style.transitionDelay = (i % 3) * 55 + 'ms'; });
+  var ticking = false;
+  function show() {
+    ticking = false;
+    for (var k = 0; k < els.length; k++) {
+      var el = els[k];
+      if (!el.classList.contains('in') && el.getBoundingClientRect().top < innerHeight * 0.92)
+        el.classList.add('in');
+    }
+  }
+  function queue() { if (!ticking) { ticking = true; requestAnimationFrame(show); } }
+  addEventListener('scroll', queue, { passive: true });
+  addEventListener('resize', queue);
+  addEventListener('load', show);
+  show();
+  setTimeout(function () { document.documentElement.classList.remove('anim'); }, 6000);
+}
+</script>
 </body>
 </html>
